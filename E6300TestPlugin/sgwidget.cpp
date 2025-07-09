@@ -89,8 +89,8 @@ SGWidget::SGWidget(QWidget *parent)
     //----------------------------------------
     // Stop outputs
     //----------------------------------------
-    auto *mStopAllBtn = new QPushButton(tr("Stop TX1 Output"));
-    auto *mStopSingleBtn = new QPushButton(tr("Stop TX2 Output"));
+    auto *mStopAllBtn = new QPushButton(tr("Stop All Outputs"));
+    auto *mStopSingleBtn = new QPushButton(tr("Stop Single Output"));
 
     sigLayout->addRow(mStopAllBtn);
     sigLayout->addRow(mStopSingleBtn);
