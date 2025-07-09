@@ -179,7 +179,7 @@ QJsonObject E6300Plugin::getInstrumentInfo()
         return mainWin->getInfo();
     }
 
-    errInfo["Error detail"] = "Plugin malfuncition.";
+    errInfo["Error detail"] = "Plugin malfunction.";
     return errInfo;
 #else
     QJsonObject info;
