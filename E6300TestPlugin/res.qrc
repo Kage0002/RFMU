@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>icons/auto.png</file>
+        <file>icons/single.png</file>
+        <file>icons/connect.png</file>
+        <file>icons/stop.png</file>
+    </qresource>
+</RCC>
