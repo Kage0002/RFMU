@@ -143,7 +143,11 @@ QByteArray Rfmu2Base::readOneFrame(int timeoutMs)
     disconnect(readConn);
     disconnect(timerConn);
 
-    // If we never parsed a complete frame, return empty
+    // If we never parsed a complete frame, signal a timeout error
+    if (completeFrame.isEmpty())
+        fail(Rfmu2Err::Timeout,
+             QStringLiteral("Timed out waiting for complete frame"));
+
     return completeFrame;
 }
 
