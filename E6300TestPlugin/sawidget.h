@@ -146,7 +146,7 @@ private:
     FrequencySpinBox *spinBox_Frequency_Start;
     FrequencySpinBox *spinBox_Frequency_Stop;
     QDoubleSpinBox *spinBox_Level;
-    QLineEdit *lineEdit_Channel;
+    QComboBox *comboBox_Channel;
     QSpinBox *spinBox_receiveChannel;
     QSpinBox *spinBox_Acquisition_SwpInterval;
     QCheckBox *checkBox_Markers_Active;
