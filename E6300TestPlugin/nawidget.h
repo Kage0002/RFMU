@@ -264,8 +264,8 @@ private:
     void AdjustSweepRange();
 
     QSpinBox *mPointsEdit;
-    QLineEdit *mPort1Edit;
-    QLineEdit *mPort2Edit;
+    QComboBox *mPort1Edit;
+    QComboBox *mPort2Edit;
     QLineEdit *mSingleFileEdit;
     QLineEdit *mDualFileEdit;
 
