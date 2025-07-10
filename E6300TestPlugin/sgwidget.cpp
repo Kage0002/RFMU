@@ -38,7 +38,15 @@ SGWidget::SGWidget(QWidget *parent)
     spinBox_SingleLevel->setSuffix(" dBm");
     spinBox_SingleLevel->setValue(-5);
 
-    mGenSinglePath = new QLineEdit("01A"); // Default path
+    mGenSinglePath = new QComboBox;
+    const QStringList chans = {
+                               "01A","01B","01C","01D",
+                               "02A","02B","02C","02D",
+                               "03A","03B","03C","03D",
+                               "04A","04B","04C","04D"};
+    mGenSinglePath->addItems(chans);
+    mGenSinglePath->setCurrentText("01A");
+    
     auto *mGenSingleBtn  = new QPushButton(tr("Set Channel TX1"));
 
     sigLayout->addRow(tr("TX1 Freq:"), spinBox_SingleFreq);
@@ -73,7 +81,10 @@ SGWidget::SGWidget(QWidget *parent)
     spinBox_DualLevel2->setSuffix(" dBm");
     spinBox_DualLevel2->setValue(-7);
 
-    mGenTwoPath = new QLineEdit("02B");
+    mGenTwoPath = new QComboBox;
+    mGenTwoPath->addItems(chans);
+    mGenTwoPath->setCurrentText("02B");
+    
     auto *mGenTwoBtn  = new QPushButton(tr("Set Dual Channels"));
 
     sigLayout->addRow(tr("TX1 Freq:"),      spinBox_DualFreq1);
@@ -157,7 +168,7 @@ void SGWidget::onSingleChannelClicked()
     // Convert frequency from Hz to kHz
     int freqKHz  = static_cast<int>(spinBox_SingleFreq->frequency() / 1000.0);
     double level = spinBox_SingleLevel->value();
-    QString path = mGenSinglePath->text();
+    QString path = mGenSinglePath->currentText();
 
     logger::log(mLogArea, QString("[SignalGen] Configure single freq=%1 kHz, level=%2 dBm, path=%3").arg(freqKHz).arg(level).arg(path));
 
@@ -184,7 +195,7 @@ void SGWidget::onTwoChannelsClicked()
     double l1 = spinBox_DualLevel1->value();
     int f2KHz = static_cast<int>(spinBox_DualFreq2->frequency() / 1000.0);
     double l2 = spinBox_DualLevel2->value();
-    QString path = mGenTwoPath->text();
+    QString path = mGenTwoPath->currentText();
 
     logger::log(mLogArea,
         QString("[SignalGen] Two-ch freq1=%1 kHz, lev1=%2 dBm, freq2=%3 kHz, lev2=%4 dBm, path=%5")
