@@ -57,3 +57,4 @@ compile_commands.json
 /E6300TestPlugin/debug
 /MyPluginLoader/debug
 E6300TestPlugin/.qmake.stash
+/tests/debug
