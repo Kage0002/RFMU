@@ -487,8 +487,17 @@ NAWidget::NAWidget(QWidget *parent)
     mPointsEdit = new QSpinBox;
     mPointsEdit->setRange(1, 401);
     mPointsEdit->setValue(401);
-    mPort1Edit = new QLineEdit("01A");
-    mPort2Edit = new QLineEdit("01B");
+    const QStringList chans = {
+                               "01A","01B","01C","01D",
+                               "02A","02B","02C","02D",
+                               "03A","03B","03C","03D",
+                               "04A","04B","04C","04D"};
+    mPort1Edit = new QComboBox;
+    mPort1Edit->addItems(chans);
+    mPort1Edit->setCurrentText("01A");
+    mPort2Edit = new QComboBox;
+    mPort2Edit->addItems(chans);
+    mPort2Edit->setCurrentText("02B");
     QPushButton *mPointsPortsBtn = new QPushButton("Configure Points/Ports");
     connect(mPointsPortsBtn,&QPushButton::clicked, this, &NAWidget::onPointsPortsClicked);
 
@@ -1076,8 +1085,8 @@ void NAWidget::onPointsPortsClicked()
     }
 
     int pts = mPointsEdit->value();
-    QString p1 = mPort1Edit->text();
-    QString p2 = mPort2Edit->text();
+    QString p1 = mPort1Edit->currentText();
+    QString p2 = mPort2Edit->currentText();
 
     bool ok = hardwareTool->networkAnalyzer()->configurePointsAndPorts(pts, p1, p2);
     logger::log(browser_NA,ok ? QStringLiteral("[NA] Points/Ports configured.") : QStringLiteral("[NA] Points/Ports configuration failed."));
@@ -1174,7 +1183,7 @@ void NAWidget::onSingleCaliLoadFileClicked()
     spinBox_Level_Start->setValue(power);
     spinBox_Level_Stop->setValue(power);
     mPointsEdit->setValue(data.sweepPoints);
-    mPort1Edit->setText(port1Label);
+    mPort1Edit->setCurrentText(port1Label);
 
     // Invoke the slots to apply parameters
     onFreqSweepClicked();
@@ -1297,8 +1306,8 @@ void NAWidget::onDualCaliLoadFileClicked()
     spinBox_Level_Start->setValue(power);
     spinBox_Level_Stop->setValue(power);
     mPointsEdit->setValue(data.sweepPoints);
-    mPort1Edit->setText(port1Label);
-    mPort2Edit->setText(port2Label);
+    mPort1Edit->setCurrentText(port1Label);
+    mPort2Edit->setCurrentText(port2Label);
 
     // Invoke the slots to apply parameters
     onFreqSweepClicked();
