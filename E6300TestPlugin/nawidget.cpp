@@ -497,7 +497,7 @@ NAWidget::NAWidget(QWidget *parent)
     mPort1Edit->setCurrentText("01A");
     mPort2Edit = new QComboBox;
     mPort2Edit->addItems(chans);
-    mPort2Edit->setCurrentText("02B");
+    mPort2Edit->setCurrentText("01B");
     QPushButton *mPointsPortsBtn = new QPushButton("Configure Points/Ports");
     connect(mPointsPortsBtn,&QPushButton::clicked, this, &NAWidget::onPointsPortsClicked);
 
