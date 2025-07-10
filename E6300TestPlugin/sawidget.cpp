@@ -332,8 +332,15 @@ SAWidget::SAWidget(QWidget *parent)
     spinBox_receiveChannel->setValue(3);
     formLayout_Frequency->addRow("Receive(RX)", spinBox_receiveChannel);
 
-    lineEdit_Channel = new QLineEdit("02A");
-    formLayout_Frequency->addRow("Channel", lineEdit_Channel);
+    comboBox_Channel = new QComboBox;
+    const QStringList chans = {
+                               "01A","01B","01C","01D",
+                               "02A","02B","02C","02D",
+                               "03A","03B","03C","03D",
+                               "04A","04B","04C","04D"};
+    comboBox_Channel->addItems(chans);
+    comboBox_Channel->setCurrentText("02A");
+    formLayout_Frequency->addRow("Channel", comboBox_Channel);
 
     QPushButton *pushButton_Frequency_PeakMeasure = new QPushButton("Peak Measure");
     connect(pushButton_Frequency_PeakMeasure, &QPushButton::clicked, this, &SAWidget::onFreqPeakMeasureClicked);
@@ -650,7 +657,7 @@ void SAWidget::acquireSweepData(QVector<double> &outFreqs, QVector<double> &outA
     int freqKHz  = static_cast<int>(spinBox_Frequency_Center->frequency() / 1000.0);
     double level = spinBox_Level->value();
     int receive = spinBox_receiveChannel->value();
-    QString chan = lineEdit_Channel->text();
+    QString chan = comboBox_Channel->currentText();
 
     logger::log(browser_SA, QString("[Spectrum] Starting measure with freq=%1 kHz, level=%2 dB, receive=%3, chan=%4")
                                 .arg(freqKHz).arg(level).arg(receive).arg(chan));
@@ -1696,7 +1703,7 @@ void SAWidget::onFreqPeakMeasureClicked()
     int freqKHz  = static_cast<int>(spinBox_Frequency_Center->frequency() / 1000.0);
     double level = spinBox_Level->value();
     int receive = spinBox_receiveChannel->value();
-    QString chan = lineEdit_Channel->text();
+    QString chan = comboBox_Channel->currentText();
 
     logger::log(browser_SA, QString("[Spectrum] Starting peak measure with freq=%1, level=%2, receive=%3, chan=%4")
                            .arg(freqKHz).arg(level).arg(receive).arg(chan));
