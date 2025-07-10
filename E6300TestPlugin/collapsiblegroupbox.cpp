@@ -1,4 +1,4 @@
-#include "CollapsibleGroupBox.h"
+#include "collapsiblegroupbox.h"
 #include <QLabel>
 #include <QPropertyAnimation>
 
