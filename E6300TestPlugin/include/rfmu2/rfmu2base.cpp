@@ -4,6 +4,7 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <QMetaObject>
+#include <cmath>
 #include <cstring>
 #include <QMetaType>
 #include <QtEndian>
