@@ -54,3 +54,6 @@ compile_commands.json
 *_qmlcache.qrc
 
 /.qtc_clangd/
+/E6300TestPlugin/debug
+/MyPluginLoader/debug
+E6300TestPlugin/.qmake.stash
