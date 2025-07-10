@@ -37,14 +37,14 @@ private:
     // Single-channel controls
     FrequencySpinBox *spinBox_SingleFreq;  ///< Frequency input for single channel
     QDoubleSpinBox   *spinBox_SingleLevel; ///< Level in dBm for single channel
-    QLineEdit        *mGenSinglePath;
+    QComboBox *mGenSinglePath;
 
     // Dual-channel controls
     FrequencySpinBox *spinBox_DualFreq1;   ///< Frequency input for channel 1
     QDoubleSpinBox   *spinBox_DualLevel1;  ///< Level in dBm for channel 1
     FrequencySpinBox *spinBox_DualFreq2;   ///< Frequency input for channel 2
     QDoubleSpinBox   *spinBox_DualLevel2;  ///< Level in dBm for channel 2
-    QLineEdit        *mGenTwoPath;
+    QComboBox *mGenTwoPath;
 
     // Local log area for debugging feedback
     QTextBrowser     *mLogArea;
