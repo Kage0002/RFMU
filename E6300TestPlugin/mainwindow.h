@@ -7,6 +7,18 @@
 #include "include/rfmu2/rfmu2tool.h"
 #include "include/rfmu2/rfmu2_error.h"
 
+// Visibility mode for the main widgets. Adjust WIDGET_VISIBILITY_MODE
+// to one of the DISPLAY_* values below to either show all widgets or
+// only a specific one. By default all widgets are visible.
+#define DISPLAY_ALL 0
+#define DISPLAY_SG  1
+#define DISPLAY_SA  2
+#define DISPLAY_NA  3
+
+#ifndef WIDGET_VISIBILITY_MODE
+#define WIDGET_VISIBILITY_MODE DISPLAY_ALL
+#endif
+
 // Forward declarations
 class Rfmu2Tool;
 class SAWidget;
@@ -46,6 +58,7 @@ private:
     void createMenus();
     void createStatusBar();
     void applyStyleSheet(); // optional for styling
+    void applyVisibilitySettings(); // show/hide widgets based on macro
 
 private:
     // The hardware tool managing the TCP connection & submodules

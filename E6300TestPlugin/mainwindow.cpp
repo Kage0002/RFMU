@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     createMenus();
     createStatusBar();
     applyStyleSheet();      // optional styling
+    applyVisibilitySettings(); // adjust widget visibility based on macro
 
     // 3. Window properties
     setWindowTitle(tr("RF Module Control"));
@@ -448,4 +449,41 @@ void MainWindow::onRRSUCalibrationTriggered()
     }
     RRSUCalibDialog dlg(m_rfmuTool->systemControl(), this);
     dlg.exec(); // modal
+}
+
+//----------------------------------------
+// Apply visibility settings based on macro
+//----------------------------------------
+void MainWindow::applyVisibilitySettings()
+{
+#if WIDGET_VISIBILITY_MODE == DISPLAY_SG
+    // Show only SG widget
+    if (m_tabWidget) {
+        m_tabWidget->hide();
+    }
+    if (m_saWidget)  m_saWidget->hide();
+    if (m_naWidget)  m_naWidget->hide();
+    if (m_dockSG)    m_dockSG->show();
+#elif WIDGET_VISIBILITY_MODE == DISPLAY_SA
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentWidget(m_saWidget);
+        m_tabWidget->tabBar()->hide();
+    }
+    if (m_naWidget)  m_naWidget->hide();
+    if (m_sgWidget)  m_sgWidget->hide();
+    if (m_dockSG)    m_dockSG->hide();
+#elif WIDGET_VISIBILITY_MODE == DISPLAY_NA
+    if (m_tabWidget) {
+        m_tabWidget->setCurrentWidget(m_naWidget);
+        m_tabWidget->tabBar()->hide();
+    }
+    if (m_saWidget)  m_saWidget->hide();
+    if (m_sgWidget)  m_sgWidget->hide();
+    if (m_dockSG)    m_dockSG->hide();
+#else // DISPLAY_ALL
+    if (m_tabWidget) m_tabWidget->show();
+    if (m_saWidget)  m_saWidget->show();
+    if (m_naWidget)  m_naWidget->show();
+    if (m_dockSG)    m_dockSG->show();
+#endif
 }
