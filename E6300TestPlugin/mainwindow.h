@@ -18,15 +18,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    enum class DisplayMode {
-        ShowAll,
-        SignalSourceOnly,
-        SpectrumAnalyzerOnly,
-        NetworkAnalyzerOnly
-    };
-
-    explicit MainWindow(DisplayMode mode = DisplayMode::ShowAll,
-                        QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
 private slots:
@@ -85,8 +77,6 @@ private:
     QAction *m_rrsuCalibAction;
 
     QDockWidget *m_dockSG;
-
-    DisplayMode m_displayMode;
 };
 
 #endif // MAINWINDOW_H

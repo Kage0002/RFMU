@@ -2,7 +2,6 @@
 #include "mainwindow.h"
 
 #include <QVBoxLayout>
-#include <QCoreApplication>
 
 static char UNIQUE_HEX_CHAR[256] = "yP8)T2KJ|Ge%@}1U~jvb?m5!ow^QSi4`[dF=czYp,q>t\"H\\7NrkEBM9LCnZV*#;R&AL(s_3a:I+W/X$fX0M[>&LBA_N\"3kh'c58VzqlVNO0-W:9T=mx-#iYub.Xc7H1d#GOp3;ymDQnuCV=G&;Rjl6'1F24B9g5[PQhI7sw%zA)vW,xDKM^S0Eqrt*neEroaRUZM-i]1[J)rTGp&gA\"#>DkWxs9tHV,lY7N3_z/L8mCQ+57jf]hbI{v<&0y;4XZ";
 
@@ -113,28 +112,7 @@ QMainWindow* E6300Plugin::createAndGetPluginWin(const QString paraNIC, int slot,
         // myCentralWidget->setLayout(layout);
         // m_mainWindow->setCentralWidget(myCentralWidget);
 
-        QString modeStr = qEnvironmentVariable("RFMU_FEATURE_MODE");
-        if (modeStr.isEmpty()) {
-#if defined(DEFAULT_RFMU_FEATURE_MODE_SG)
-            modeStr = QStringLiteral("SG");
-#elif defined(DEFAULT_RFMU_FEATURE_MODE_SA)
-            modeStr = QStringLiteral("SA");
-#elif defined(DEFAULT_RFMU_FEATURE_MODE_NA)
-            modeStr = QStringLiteral("NA");
-#else
-            modeStr = QStringLiteral("ALL");
-#endif
-        }
-        MainWindow::DisplayMode mode = MainWindow::DisplayMode::ShowAll;
-        if (modeStr.compare("SG", Qt::CaseInsensitive) == 0) {
-            mode = MainWindow::DisplayMode::SignalSourceOnly;
-        } else if (modeStr.compare("SA", Qt::CaseInsensitive) == 0) {
-            mode = MainWindow::DisplayMode::SpectrumAnalyzerOnly;
-        } else if (modeStr.compare("NA", Qt::CaseInsensitive) == 0) {
-            mode = MainWindow::DisplayMode::NetworkAnalyzerOnly;
-        }
-
-        m_mainWindow = new MainWindow(mode);
+        m_mainWindow = new MainWindow;
 
         result = "Plugin window created successfully.";
     } else {
