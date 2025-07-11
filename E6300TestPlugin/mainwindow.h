@@ -88,6 +88,7 @@ private:
     QAction *m_useExternalClockAction;
     QAction* m_readVoltageTempAction;
     QAction *m_rrsuCalibAction;
+    QAction* viewSignalGeneratorAction;
 
     QDockWidget *m_dockSG;
 };
