@@ -13,13 +13,14 @@
 #include "rrsucalibdialog.h"
 #include "connectdialog.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(DisplayMode mode, QWidget *parent)
     : QMainWindow(parent)
     , m_rfmuTool(new Rfmu2Tool(this))
     , m_saWidget(nullptr)
     , m_sgWidget(nullptr)
     , m_naWidget(nullptr)
     , m_tabWidget(nullptr)
+    , m_displayMode(mode)
 {
     // 1. Connect Rfmu2Tool signals to this MainWindow
     connect(m_rfmuTool, &Rfmu2Tool::errorOccurred,
@@ -28,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onConnectionStateChanged);
 
     // 2. Create main UI components
-    createCentralTabs();    // Tab widget in the center
-    createDockWidgets();    // SGWidget on the right side
+    createCentralTabs();    // Tab widget in the center or SGWidget
+    createDockWidgets();    // SGWidget as dock when needed
     createActions();
     createMenus();
     createStatusBar();
@@ -49,30 +50,39 @@ MainWindow::~MainWindow()
 //----------------------------------------
 void MainWindow::createCentralTabs()
 {
-    // Initialize the tab widget
+    if (m_displayMode == DisplayMode::SignalSourceOnly) {
+        // SG only handled in createDockWidgets
+        return;
+    }
+
     m_tabWidget = new QTabWidget(this);
     m_tabWidget->setTabPosition(QTabWidget::North);
     m_tabWidget->setMovable(true);
 
-    // Create SAWidget (Spectrum Analyzer)
-    m_saWidget = new SAWidget(this);
-    m_saWidget->setTool(m_rfmuTool);
-    m_tabWidget->addTab(m_saWidget, tr("Spectrum Analyzer"));
+    if (m_displayMode == DisplayMode::ShowAll ||
+        m_displayMode == DisplayMode::SpectrumAnalyzerOnly) {
+        m_saWidget = new SAWidget(this);
+        m_saWidget->setTool(m_rfmuTool);
+        m_tabWidget->addTab(m_saWidget, tr("Spectrum Analyzer"));
+    }
 
-    // Create NAWidget (Network Analyzer)
-    m_naWidget = new NAWidget(this);
-    m_naWidget->setTool(m_rfmuTool);
-    m_tabWidget->addTab(m_naWidget, tr("Network Analyzer"));
+    if (m_displayMode == DisplayMode::ShowAll ||
+        m_displayMode == DisplayMode::NetworkAnalyzerOnly) {
+        m_naWidget = new NAWidget(this);
+        m_naWidget->setTool(m_rfmuTool);
+        m_tabWidget->addTab(m_naWidget, tr("Network Analyzer"));
 
-    connect(m_naWidget, &NAWidget::naSinglePortCali,
-            this, &MainWindow::onSinglePortCaliResult);
-    connect(m_naWidget, &NAWidget::naDualPortCali,
-            this, &MainWindow::onDualPortCaliResult);
+        connect(m_naWidget, &NAWidget::naSinglePortCali,
+                this, &MainWindow::onSinglePortCaliResult);
+        connect(m_naWidget, &NAWidget::naDualPortCali,
+                this, &MainWindow::onDualPortCaliResult);
+    }
 
-    connect(m_tabWidget, &QTabWidget::currentChanged, this, &MainWindow::onTabChanged);
-
-    // Make the tab widget the central widget
-    setCentralWidget(m_tabWidget);
+    if (m_tabWidget->count() > 0) {
+        connect(m_tabWidget, &QTabWidget::currentChanged,
+                this, &MainWindow::onTabChanged);
+        setCentralWidget(m_tabWidget);
+    }
 }
 
 //----------------------------------------
@@ -80,16 +90,22 @@ void MainWindow::createCentralTabs()
 //----------------------------------------
 void MainWindow::createDockWidgets()
 {
-    // Signal Generator as a dock on the right
-    m_sgWidget = new SGWidget(this);
-    m_sgWidget->setTool(m_rfmuTool);
+    if (m_displayMode == DisplayMode::SignalSourceOnly) {
+        m_sgWidget = new SGWidget(this);
+        m_sgWidget->setTool(m_rfmuTool);
+        setCentralWidget(m_sgWidget);
+        return;
+    }
 
-    m_dockSG = new QDockWidget(tr("Signal Generator"), this);
-    m_dockSG->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    m_dockSG->setWidget(m_sgWidget);
-    addDockWidget(Qt::RightDockWidgetArea, m_dockSG);
+    if (m_displayMode == DisplayMode::ShowAll) {
+        m_sgWidget = new SGWidget(this);
+        m_sgWidget->setTool(m_rfmuTool);
 
-    // If you have more side widgets, create more docks similarly
+        m_dockSG = new QDockWidget(tr("Signal Generator"), this);
+        m_dockSG->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+        m_dockSG->setWidget(m_sgWidget);
+        addDockWidget(Qt::RightDockWidgetArea, m_dockSG);
+    }
 }
 
 //----------------------------------------
@@ -363,8 +379,10 @@ void MainWindow::onConnectionStateChanged(bool connected)
         statusBar()->showMessage(tr("Hardware connected"));
     } else {
         statusBar()->showMessage(tr("Hardware disconnected"));
-        m_saWidget->stopAutoSweep();
-        m_naWidget->stopAutoSweep();
+        if (m_saWidget)
+            m_saWidget->stopAutoSweep();
+        if (m_naWidget)
+            m_naWidget->stopAutoSweep();
     }
 }
 
@@ -424,18 +442,26 @@ void MainWindow::onReadVoltageTempTriggered()
 
 void MainWindow::onTabChanged(int index)
 {
+    if (!m_tabWidget)
+        return;
+
     QWidget *current = m_tabWidget->widget(index);
 
     if (current == m_naWidget) {
-        m_dockSG->hide();
-        m_saWidget->stopAutoSweep();
+        if (m_dockSG)
+            m_dockSG->hide();
+        if (m_saWidget)
+            m_saWidget->stopAutoSweep();
     }
     else if (current == m_saWidget) {
-        m_dockSG->show();
-        m_naWidget->stopAutoSweep();
+        if (m_dockSG)
+            m_dockSG->show();
+        if (m_naWidget)
+            m_naWidget->stopAutoSweep();
     }
     else {
-        m_dockSG->show();
+        if (m_dockSG)
+            m_dockSG->show();
     }
 }
 
