@@ -231,11 +231,9 @@ void MainWindow::createMenus()
 
     // View menu
     m_viewMenu = menuBar()->addMenu(tr("&View"));
-    if (m_dockSG) {
-        QAction* viewSignalGeneratorAction = m_dockSG->toggleViewAction();
-        viewSignalGeneratorAction->setText(tr("Signal Generator"));
-        m_viewMenu->addAction(viewSignalGeneratorAction);
-    }
+    QAction* viewSignalGeneratorAction = m_dockSG->toggleViewAction();
+    viewSignalGeneratorAction->setText(tr("Signal Generator"));
+    m_viewMenu->addAction(viewSignalGeneratorAction);
 
     // Help menu
     m_helpMenu = menuBar()->addMenu(tr("&Help"));
