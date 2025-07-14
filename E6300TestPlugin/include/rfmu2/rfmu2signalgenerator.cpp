@@ -1,8 +1,6 @@
 #include "rfmu2signalgenerator.h"
 #include <QDebug>
 
-static const QByteArray FRAME_TAIL = QByteArray::fromHex("55AA55");
-
 Rfmu2SignalGenerator::Rfmu2SignalGenerator(QTcpSocket *sock, QObject *parent)
     : Rfmu2Base(sock, parent)
 {
