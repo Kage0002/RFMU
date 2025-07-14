@@ -82,29 +82,6 @@ QByteArray Rfmu2Base::receiveResponse(int timeoutMs)
 }
 
 // ---------------- readOneFrame ----------------
-// QByteArray Rfmu2Base::readOneFrame(int timeoutMs)
-// {
-//     // quick path: do we already have a complete frame buffered?
-//     QByteArray frame = tryExtractFrameFromBuffer();
-//     if (!frame.isEmpty())
-//         return frame;
-
-//     QElapsedTimer deadline; deadline.start();
-
-//     while (deadline.elapsed() < timeoutMs) {
-//         if (!m_socket->waitForReadyRead(timeoutMs - static_cast<int>(deadline.elapsed())))
-//             break; // timeout
-
-//         m_incomingBuffer.append(m_socket->readAll());
-//         frame = tryExtractFrameFromBuffer();
-//         if (!frame.isEmpty())
-//             return frame;
-//     }
-
-//     fail(Rfmu2Err::Timeout, QStringLiteral("Timed out waiting for complete frame"));
-//     return {};
-// }
-
 QByteArray Rfmu2Base::readOneFrame(int timeoutMs)
 {
     QByteArray completeFrame;
