@@ -463,7 +463,7 @@ void MainWindow::applyVisibilitySettings()
     }
     if (m_saWidget)  m_saWidget->hide();
     if (m_naWidget)  m_naWidget->hide();
-    if (m_dockSG)    m_dockSG->show();
+    // if (m_dockSG)    m_dockSG->show();
 #elif WIDGET_VISIBILITY_MODE == DISPLAY_SA
     if (m_tabWidget) {
         m_tabWidget->setCurrentWidget(m_saWidget);
@@ -483,10 +483,11 @@ void MainWindow::applyVisibilitySettings()
     if (m_dockSG)    m_dockSG->hide();
     if (viewSignalGeneratorAction) viewSignalGeneratorAction->setVisible(false);
 #else // DISPLAY_ALL
-    if (m_tabWidget) m_tabWidget->show();
-    if (m_saWidget)  m_saWidget->show();
-    if (m_naWidget)  m_naWidget->show();
-    if (m_dockSG)    m_dockSG->show();
-    if (viewSignalGeneratorAction) viewSignalGeneratorAction->setVisible(true);
+    // Already visible
+    // if (m_tabWidget) m_tabWidget->show();
+    // if (m_saWidget)  m_saWidget->show();
+    // if (m_naWidget)  m_naWidget->show();
+    // if (m_dockSG)    m_dockSG->show();
+    // if (viewSignalGeneratorAction) viewSignalGeneratorAction->setVisible(true);
 #endif
 }
