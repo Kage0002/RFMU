@@ -133,6 +133,9 @@ SGWidget::SGWidget(QWidget *parent)
 
     m_sweepWorker->moveToThread(m_sweepThread);
 
+    connect(m_sweepThread, &QThread::finished,
+            m_sweepWorker, &QObject::deleteLater);
+
     connect(m_sweepWorker, &SGStepWorker::sweepFinished,
             this,          &SGWidget::onSweepDone,
             Qt::QueuedConnection);
@@ -152,6 +155,7 @@ SGWidget::~SGWidget()
     if (m_sweepThread) {
         m_sweepThread->quit();
         m_sweepThread->wait();
+        m_sweepWorker = nullptr;
     }
 }
 
