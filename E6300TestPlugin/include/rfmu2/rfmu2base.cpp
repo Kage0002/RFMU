@@ -71,6 +71,7 @@ bool Rfmu2Base::sendCommand(const QByteArray &cmd)
                 return fail(Rfmu2Err::Timeout, QStringLiteral("flush timeout after partial write"));
         }
     }
+    qDebug() << "command sent:" << cmd.toHex(' ');
     return true;
 }
 
