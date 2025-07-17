@@ -178,7 +178,7 @@ NAWidget::NAWidget(QWidget *parent)
     formLayout_Markers->addRow("Type", comboBox_Markers_Type);
 
     comboBox_Markers_PlaceOn = new QComboBox;
-    comboBox_Markers_PlaceOn->addItems({"Trace One", "Trace Two", "Trace Three", "Trace Four", "Trace Five", "Trace Six", "Trace Seven", "Trace Eight"});
+    comboBox_Markers_PlaceOn->addItems({"Amp/I(S11)", "Amp/I(S21)", "Amp/I(S12)", "Amp/I(S22)", "Phase/Q(S11)", "Phase/Q(S21)", "Phase/Q(S12)", "Phase/Q(S22)"});
     connect(comboBox_Markers_PlaceOn, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &NAWidget::onMarkerPlaceOnChanged);
     formLayout_Markers->addRow("Place On", comboBox_Markers_PlaceOn);
 
