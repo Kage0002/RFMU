@@ -126,8 +126,13 @@ SGWidget::SGWidget(QWidget *parent)
                 if (!hardwareTool || !hardwareTool->signalGenerator())
                     return;
 
-                hardwareTool->signalGenerator()
-                    ->configureSingleChannel(freqKHz, lvlDbm, path);
+                logger::log(mLogArea, QString("[SignalGen] Configure single freq=%1 kHz, level=%2 dBm, path=%3").arg(freqKHz).arg(lvlDbm).arg(path));
+                bool ok = hardwareTool->signalGenerator()->configureSingleChannel(freqKHz, lvlDbm, path);
+                if (!ok) {
+                    logger::log(mLogArea, QStringLiteral("Failed to configure single channel."));
+                } else {
+                    logger::log(mLogArea, QStringLiteral("Single channel configured successfully."));
+                }
             },
             Qt::QueuedConnection);   // ensure it runs in the GUI thread
 
