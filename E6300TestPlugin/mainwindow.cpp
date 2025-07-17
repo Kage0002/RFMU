@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_naWidget(nullptr)
     , m_tabWidget(nullptr)
 {
+    setWindowIcon(QIcon(":/images/icons/testspirite.ico"));
+
     // 1. Connect Rfmu2Tool signals to this MainWindow
     connect(m_rfmuTool, &Rfmu2Tool::errorOccurred,
             this, &MainWindow::onHardwareError);

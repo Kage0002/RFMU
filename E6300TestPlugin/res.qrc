@@ -4,5 +4,6 @@
         <file>icons/single.png</file>
         <file>icons/connect.png</file>
         <file>icons/stop.png</file>
+        <file>icons/testspirite.ico</file>
     </qresource>
 </RCC>
