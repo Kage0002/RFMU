@@ -18,7 +18,7 @@ ConnectDialog::ConnectDialog(QWidget *parent)
 
     // IP field
     grid->addWidget(new QLabel(tr("IP address:")), 0, 0);
-    m_ipEdit = new QLineEdit(QStringLiteral("192.168.137.10"), this);
+    m_ipEdit = new QLineEdit(QStringLiteral("192.168.137.11"), this);
     m_ipEdit->setInputMask("000.000.000.000;");   // simple sanity mask
     grid->addWidget(m_ipEdit, 0, 1);
 
