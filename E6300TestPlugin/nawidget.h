@@ -30,7 +30,7 @@ class NAWorker : public QObject
 {
     Q_OBJECT
 public:
-    explicit NAWorker(Rfmu2Tool *tool, QObject *parent = nullptr)
+    explicit NAWorker(Rfmu2Tool *tool = nullptr, QObject *parent = nullptr)
         : QObject(parent), m_tool(tool) {}
 
 public slots:
