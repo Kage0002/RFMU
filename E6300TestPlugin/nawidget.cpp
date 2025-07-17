@@ -630,7 +630,7 @@ NAWidget::NAWidget(QWidget *parent)
 
     // --- Threaded acquisition setup ---
     m_workerThread = new QThread(this);
-    m_worker = new NAWorker;
+    m_worker = new NAWorker(hardwareTool, m_workerThread);
     m_worker->moveToThread(m_workerThread);
 
     connect(this,     &NAWidget::requestSinglePort,
