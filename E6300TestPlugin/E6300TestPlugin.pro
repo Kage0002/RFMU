@@ -2,30 +2,9 @@ QT += gui widgets core printsupport network
 
 CONFIG += c++17
 
-# Build as a plugin by default.  To build an executable, pass
-# "CONFIG+=build_app" to qmake.  This switches the template to an
-# application, removes the plugin configuration and adds main.cpp.
-TEMPLATE = lib
-CONFIG += plugin
-
-CONFIG(build_app) {
-    TEMPLATE = app
-    CONFIG -= plugin
-    SOURCES += main.cpp
-    TARGET = E6300TestPlugin
-    CONFIG(debug, debug|release) {
-        DESTDIR = $$PWD/../MyPluginLoader/debug
-    } else {
-        DESTDIR = $$PWD/../MyPluginLoader/release
-    }
-} else {
-    TARGET = E6300Plugin
-    CONFIG(debug, debug|release) {
-        DESTDIR = $$PWD/../MyPluginLoader/debug/plugins
-    } else {
-        DESTDIR = $$PWD/../MyPluginLoader/release/plugins
-    }
-}
+TEMPLATE = app
+TARGET = E6300TestPlugin
+SOURCES += main.cpp
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
