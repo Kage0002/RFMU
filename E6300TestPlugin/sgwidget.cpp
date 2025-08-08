@@ -28,17 +28,17 @@ SGWidget::SGWidget(QWidget *parent)
     //----------------------------------------
     // Single-channel controls
     //----------------------------------------
-    spinBox_SingleFreq = new FrequencySpinBox;
+    spinBox_SingleFreq = new FrequencySpinBox(signalGenGroup);
     spinBox_SingleFreq->setRange(1e8, 6e9);
     spinBox_SingleFreq->setFrequency(1e9);  // Default: 1 GHz
 
-    spinBox_SingleLevel = new QDoubleSpinBox;
+    spinBox_SingleLevel = new QDoubleSpinBox(signalGenGroup);
     spinBox_SingleLevel->setRange(-100, 10);
     spinBox_SingleLevel->setDecimals(1);
     spinBox_SingleLevel->setSuffix(" dBm");
     spinBox_SingleLevel->setValue(-5);
 
-    mGenSinglePath = new QComboBox;
+    mGenSinglePath = new QComboBox(signalGenGroup);
     const QStringList chans = {
                                "01A","01B","01C","01D",
                                "02A","02B","02C","02D",
@@ -47,7 +47,7 @@ SGWidget::SGWidget(QWidget *parent)
     mGenSinglePath->addItems(chans);
     mGenSinglePath->setCurrentText("01A");
     
-    auto *mGenSingleBtn  = new QPushButton(tr("Set Channel TX1"));
+    auto *mGenSingleBtn  = new QPushButton(tr("Set Channel TX1"), signalGenGroup);
 
     sigLayout->addRow(tr("TX1 Freq:"), spinBox_SingleFreq);
     sigLayout->addRow(tr("TX1 Level (dB):"), spinBox_SingleLevel);
@@ -61,31 +61,31 @@ SGWidget::SGWidget(QWidget *parent)
     //----------------------------------------
     // Dual-channel controls
     //----------------------------------------
-    spinBox_DualFreq1 = new FrequencySpinBox;
+    spinBox_DualFreq1 = new FrequencySpinBox(signalGenGroup);
     spinBox_DualFreq1->setRange(1e8, 6e9);
     spinBox_DualFreq1->setFrequency(1e9); // Default: 1 GHz
 
-    spinBox_DualLevel1 = new QDoubleSpinBox;
+    spinBox_DualLevel1 = new QDoubleSpinBox(signalGenGroup);
     spinBox_DualLevel1->setRange(-100, 10);
     spinBox_DualLevel1->setDecimals(1);
     spinBox_DualLevel1->setSuffix(" dBm");
     spinBox_DualLevel1->setValue(-5);
 
-    spinBox_DualFreq2 = new FrequencySpinBox;
+    spinBox_DualFreq2 = new FrequencySpinBox(signalGenGroup);
     spinBox_DualFreq2->setRange(1e8, 6e9);
     spinBox_DualFreq2->setFrequency(2e9); // Default: 2 GHz
 
-    spinBox_DualLevel2 = new QDoubleSpinBox;
+    spinBox_DualLevel2 = new QDoubleSpinBox(signalGenGroup);
     spinBox_DualLevel2->setRange(-100, 10);
     spinBox_DualLevel2->setDecimals(1);
     spinBox_DualLevel2->setSuffix(" dBm");
     spinBox_DualLevel2->setValue(-7);
 
-    mGenTwoPath = new QComboBox;
+    mGenTwoPath = new QComboBox(signalGenGroup);
     mGenTwoPath->addItems(chans);
     mGenTwoPath->setCurrentText("02B");
     
-    auto *mGenTwoBtn  = new QPushButton(tr("Set Dual Channels"));
+    auto *mGenTwoBtn  = new QPushButton(tr("Set Dual Channels"), signalGenGroup);
 
     sigLayout->addRow(tr("TX1 Freq:"),      spinBox_DualFreq1);
     sigLayout->addRow(tr("TX1 Level (dB):"),spinBox_DualLevel1);
@@ -100,8 +100,8 @@ SGWidget::SGWidget(QWidget *parent)
     //----------------------------------------
     // Stop outputs
     //----------------------------------------
-    auto *mStopAllBtn = new QPushButton(tr("Stop TX1 Output"));
-    auto *mStopSingleBtn = new QPushButton(tr("Stop TX2 Output"));
+    auto *mStopAllBtn = new QPushButton(tr("Stop TX1 Output"), signalGenGroup);
+    auto *mStopSingleBtn = new QPushButton(tr("Stop TX2 Output"), signalGenGroup);
 
     sigLayout->addRow(mStopAllBtn);
     sigLayout->addRow(mStopSingleBtn);
@@ -111,7 +111,7 @@ SGWidget::SGWidget(QWidget *parent)
     connect(mStopSingleBtn, &QPushButton::clicked,
             this, &SGWidget::onStopSingleOutputClicked);
 
-    m_btnStepSweep = new QPushButton(tr("Step Sweep"));
+    m_btnStepSweep = new QPushButton(tr("Step Sweep"), signalGenGroup);
     sigLayout->addRow(m_btnStepSweep);
     connect(m_btnStepSweep, &QPushButton::clicked,
             this, &SGWidget::onStepSweepClicked);
