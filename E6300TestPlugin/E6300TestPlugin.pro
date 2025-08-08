@@ -11,11 +11,9 @@ SOURCES += main.cpp
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
-    E6300Plugin_Interface.h \
     collapsiblegroupbox.h \
     colorpickerwidget.h \
     connectdialog.h \
-    e6300plugin.h \
     include/frequencyspinbox.h \
     include/qcustomplot.h \
     include/rfmu2/rfmu2_error.h \
@@ -39,7 +37,6 @@ SOURCES += \
     collapsiblegroupbox.cpp \
     colorpickerwidget.cpp \
     connectdialog.cpp \
-    e6300plugin.cpp \
     include/frequencyspinbox.cpp \
     include/qcustomplot.cpp \
     include/rfmu2/rfmu2base.cpp \
