@@ -1,5 +1,3 @@
 TEMPLATE = subdirs
 
-SUBDIRS += \
-    E6300TestPlugin \
-    tests
+SUBDIRS += E6300TestPlugin
