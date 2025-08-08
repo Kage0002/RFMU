@@ -7,7 +7,7 @@ CollapsibleGroupBox::CollapsibleGroupBox(const QString& title, QWidget* parent)
 {
     // Create the toggle button (header)
     // The default state is: checked, downArrow, visible
-    toggleButton = new QToolButton;
+    toggleButton = new QToolButton(this);
     toggleButton->setStyleSheet(
         "QToolButton { border: none; background-color: #4D6081; color: white;}"
         "QToolButton::hover { border: none; background-color: #435370; color: white;}"
@@ -20,7 +20,7 @@ CollapsibleGroupBox::CollapsibleGroupBox(const QString& title, QWidget* parent)
     toggleButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // Create the content widget
-    contentWidget = new QWidget;
+    contentWidget = new QWidget(this);
     contentWidget->setStyleSheet("background-color: #EFEFF2;");
     contentWidget->setVisible(true);
 

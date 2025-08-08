@@ -25,7 +25,7 @@ NAWidget::NAWidget(QWidget *parent)
     setMinimumWidth(1500);
     setMinimumHeight(800);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     // Top horizontal bar
     QHBoxLayout *horiBar = new QHBoxLayout;
 
@@ -91,20 +91,19 @@ NAWidget::NAWidget(QWidget *parent)
 
     mainLayout->addLayout(horiBar);
 
-    QSplitter *splitter_mainHorizontalLayout = new QSplitter;
-    splitter_mainHorizontalLayout->setOrientation(Qt::Horizontal);
+    QSplitter *splitter_mainHorizontalLayout = new QSplitter(Qt::Horizontal, this);
     splitter_mainHorizontalLayout->setChildrenCollapsible(false);
 
-    QGroupBox *groupBox_Left = new QGroupBox("");
+    QGroupBox *groupBox_Left = new QGroupBox("", splitter_mainHorizontalLayout);
     QVBoxLayout *verticalLayout_Left = new QVBoxLayout;
 
-    QLabel *label_Measurements = new QLabel("Measurements");
+    QLabel *label_Measurements = new QLabel("Measurements", groupBox_Left);
     label_Measurements->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     label_Measurements->setStyleSheet("background-color: #2B3548; color: white; padding: 4px 10px;");
     verticalLayout_Left->addWidget(label_Measurements);
 
     // Traces group
-    CollapsibleGroupBox *groupBox_Traces = new CollapsibleGroupBox("Traces");
+    CollapsibleGroupBox *groupBox_Traces = new CollapsibleGroupBox("Traces", groupBox_Left);
     QVBoxLayout *vbox_Traces = new QVBoxLayout;
     QFormLayout *formLayout_Traces = new QFormLayout;
 
@@ -163,7 +162,7 @@ NAWidget::NAWidget(QWidget *parent)
     verticalLayout_Left->addWidget(groupBox_Traces);
 
     // Markers group
-    CollapsibleGroupBox *groupBox_Markers = new CollapsibleGroupBox("Markers");
+    CollapsibleGroupBox *groupBox_Markers = new CollapsibleGroupBox("Markers", groupBox_Left);
     QVBoxLayout *vbox_Markers = new QVBoxLayout;
     QFormLayout *formLayout_Markers = new QFormLayout;
 
@@ -266,8 +265,7 @@ NAWidget::NAWidget(QWidget *parent)
     groupBox_Left->setLayout(verticalLayout_Left);
     splitter_mainHorizontalLayout->addWidget(groupBox_Left);
 
-    QSplitter *splitter_Middle = new QSplitter(Qt::Horizontal);
-    splitter_Middle->setOrientation(Qt::Vertical);
+    QSplitter *splitter_Middle = new QSplitter(Qt::Vertical, splitter_mainHorizontalLayout);
     splitter_Middle->setChildrenCollapsible(false);
 
     // Setup multiple graphs for multiple traces
@@ -297,7 +295,7 @@ NAWidget::NAWidget(QWidget *parent)
     customPlot->yAxis->setRange(-120, -20);
     splitter_Middle->addWidget(customPlot);
 
-    tabWidget = new QTabWidget;
+    tabWidget = new QTabWidget(splitter_Middle);
     tabWidget->setStyleSheet(
         "QTabBar::tab { background: #CCCEDB; color: #000000; }"
         "QTabBar::tab:selected { background: #2B3548; color: #FFFFFF; }"
@@ -307,7 +305,7 @@ NAWidget::NAWidget(QWidget *parent)
     tabWidget->setMovable(true);
     tabWidget->setTabPosition(QTabWidget::South);
 
-    tab_logArea = new QWidget;
+    tab_logArea = new QWidget(tabWidget);
     QVBoxLayout *verticalLayout_SA_logArea = new QVBoxLayout;
     browser_NA = new QTextBrowser;
     browser_NA->setStyleSheet("QTextBrowser { border: none; }");
@@ -317,7 +315,7 @@ NAWidget::NAWidget(QWidget *parent)
     tabWidget->addTab(tab_logArea, "General Messages");
 
     // Single-Port Cali controls
-    QWidget *tab_SinglePortCali = new QWidget;
+    QWidget *tab_SinglePortCali = new QWidget(tabWidget);
     QVBoxLayout* spLayout = new QVBoxLayout;
     QHBoxLayout* stepsLayout = new QHBoxLayout();
 
@@ -360,7 +358,7 @@ NAWidget::NAWidget(QWidget *parent)
     tabWidget->addTab(tab_SinglePortCali, "Single-Port Cali");
 
     // Dual-Port Cali controls
-    QWidget *tab_DualPortCali = new QWidget;
+    QWidget *tab_DualPortCali = new QWidget(tabWidget);
     QVBoxLayout* dpLayout = new QVBoxLayout;
 
     // port1
@@ -433,7 +431,7 @@ NAWidget::NAWidget(QWidget *parent)
 
     splitter_mainHorizontalLayout->addWidget(splitter_Middle);
 
-    QGroupBox *groupBox_Right = new QGroupBox("");
+    QGroupBox *groupBox_Right = new QGroupBox("", splitter_mainHorizontalLayout);
     QVBoxLayout *verticalLayout_Right = new QVBoxLayout;
     QLabel *label_SweepSettings = new QLabel("Sweep Settings");
     label_SweepSettings->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -441,7 +439,7 @@ NAWidget::NAWidget(QWidget *parent)
     verticalLayout_Right->addWidget(label_SweepSettings);
 
     // Frequency controls
-    CollapsibleGroupBox *groupBox_Frequency = new CollapsibleGroupBox("Freq/Power");
+    CollapsibleGroupBox *groupBox_Frequency = new CollapsibleGroupBox("Freq/Power", groupBox_Right);
     QVBoxLayout *vbox_Frequency = new QVBoxLayout;
     QFormLayout *formLayout_Frequency = new QFormLayout;
 
@@ -480,7 +478,7 @@ NAWidget::NAWidget(QWidget *parent)
     verticalLayout_Right->addWidget(groupBox_Frequency);
 
     // Points/Ports controls
-    CollapsibleGroupBox *groupBox_Points = new CollapsibleGroupBox("Points/Ports");
+    CollapsibleGroupBox *groupBox_Points = new CollapsibleGroupBox("Points/Ports", groupBox_Right);
     QVBoxLayout *vbox_Points = new QVBoxLayout;
     QFormLayout* ppLayout = new QFormLayout;
 
@@ -511,7 +509,7 @@ NAWidget::NAWidget(QWidget *parent)
     verticalLayout_Right->addWidget(groupBox_Points);
 
     // Amplitude
-    CollapsibleGroupBox *groupBox_Amplitude = new CollapsibleGroupBox("Amplitude");
+    CollapsibleGroupBox *groupBox_Amplitude = new CollapsibleGroupBox("Amplitude", groupBox_Right);
     QFormLayout *formLayout_Amplitude = new QFormLayout;
 
     spinBox_Amplitude_RefLevel = new QDoubleSpinBox;
@@ -545,7 +543,7 @@ NAWidget::NAWidget(QWidget *parent)
     verticalLayout_Right->addWidget(groupBox_Amplitude);
 
     // Bandwidth
-    CollapsibleGroupBox *groupBox_Bandwidth = new CollapsibleGroupBox("Bandwidth");
+    CollapsibleGroupBox *groupBox_Bandwidth = new CollapsibleGroupBox("Bandwidth", groupBox_Right);
     QFormLayout *formLayout_Bandwidth = new QFormLayout;
     QComboBox *comboBox_Bandwidth_RBWShape = new QComboBox;
     comboBox_Bandwidth_RBWShape->addItems({"Flat Top", "Nutall", "CISPR(Gaussian)"});
@@ -568,7 +566,7 @@ NAWidget::NAWidget(QWidget *parent)
     // verticalLayout_Right->addWidget(groupBox_Bandwidth);
 
     // Acquisition
-    CollapsibleGroupBox *groupBox_Acquisition = new CollapsibleGroupBox("Acquisition");
+    CollapsibleGroupBox *groupBox_Acquisition = new CollapsibleGroupBox("Acquisition", groupBox_Right);
     QFormLayout *formLayout_Acquisition = new QFormLayout;
 
     QComboBox *comboBox_Acquisition_VideoUnits = new QComboBox;
